@@ -3,19 +3,67 @@ package weather.ui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.fasterxml.jackson.databind.deser.std.NumberDeserializers;
 import tk.plogitech.darksky.forecast.ForecastException;
 import tk.plogitech.darksky.forecast.GeoCoordinates;
 import tk.plogitech.darksky.forecast.model.Latitude;
 import tk.plogitech.darksky.forecast.model.Longitude;
 import weather.Weather;
+import weather.ctrl.Downloader;
+import weather.ctrl.ParallelDownloader;
+import weather.ctrl.SequentialDownloader;
 import weather.ctrl.WeatherController;
 
 public class UserInterface {
 
     private WeatherController ctrl = new WeatherController();
+/*
+    public void sequentialDownloader()  {
+        SequentialDownloader sequentialDownloader = new SequentialDownloader();
+        ArrayList<GeoCoordinates> geoCoordinates = new ArrayList<>();
+        Latitude latitude = new Latitude(48.208176);
+        Longitude longitude = new Longitude(16.373819
+        );
+        Latitude latitude2 = new Latitude(41.008240);
+        Longitude longitude2 = new Longitude(28.978359
+        );
+        geoCoordinates.add( new GeoCoordinates(longitude, latitude));
+        geoCoordinates.add( new GeoCoordinates(longitude, latitude));
+        try {
+            sequentialDownloader.process(geoCoordinates);
+        } catch (ForecastException e) {
+            e.printStackTrace();
+        }
+    }*/
+
+    public void downloader(Downloader downloader)  {
+        ArrayList<GeoCoordinates> geoCoordinates = new ArrayList<>();
+        Latitude latitude = new Latitude(48.208176);
+        Longitude longitude = new Longitude(16.373819);
+        Latitude latitude2 = new Latitude(41.008240);
+        Longitude longitude2 = new Longitude(28.978359);
+        Latitude latitude3 = new Latitude(26.008240);
+        Longitude longitude3 = new Longitude(10.978359);
+        Latitude latitude4 = new Latitude(25.008240);
+        Longitude longitude4 = new Longitude(13.978359);
+        Latitude latitude5 = new Latitude(20.008240);
+        Longitude longitude5 = new Longitude(18.978359);
+        Latitude latitude6 = new Latitude(33.008240);
+        Longitude longitude6 = new Longitude(18.978359);
+        geoCoordinates.add( new GeoCoordinates(longitude, latitude));
+        geoCoordinates.add( new GeoCoordinates(longitude2, latitude2));
+        geoCoordinates.add( new GeoCoordinates(longitude3, latitude3));
+        geoCoordinates.add( new GeoCoordinates(longitude4, latitude4));
+        geoCoordinates.add( new GeoCoordinates(longitude5, latitude5));
+        geoCoordinates.add( new GeoCoordinates(longitude6, latitude6));
+        try {
+            downloader.process(geoCoordinates);
+        } catch (ForecastException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void getWeatherForCity1() {
         //TODO enter the coordinates - DONE Wien
@@ -92,12 +140,24 @@ public class UserInterface {
         menu.insert("b", "City 2", this::getWeatherForCity2);
         menu.insert("c", "City 3", this::getWeatherForCity3);
         menu.insert("d", "City via Coordinates:", this::getWeatherByCoordinates);
+        menu.insert("e", "Sequentiell Downloader", this::getWeatherSequ);
+        menu.insert("f", "Parallel Downloader", this::getWeatherParalllel);
         menu.insert("q", "Quit", null);
         Runnable choice;
         while ((choice = menu.exec()) != null) {
             choice.run();
         }
         System.out.println("Program finished");
+    }
+
+    private void getWeatherSequ() {
+        SequentialDownloader sequentialDownloader = new SequentialDownloader();
+        downloader(sequentialDownloader);
+    }
+
+    private void getWeatherParalllel() {
+        ParallelDownloader parallelDownloader = new ParallelDownloader();
+        downloader(parallelDownloader);
     }
 
 

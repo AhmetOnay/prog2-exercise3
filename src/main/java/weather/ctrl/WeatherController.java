@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 
 public class WeatherController {
     
-    private String apiKey = "ab5c55091bfde0864c41b337f1c66af5";
-    
+    public static String apiKey = "ab5c55091bfde0864c41b337f1c66af5";
+
 
 
     public Weather process(GeoCoordinates location) throws ForecastException {
